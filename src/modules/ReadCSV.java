@@ -1,14 +1,29 @@
 package modules;
 
 import java.util.*;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
 import java.io.*;
 
 
 public class ReadCSV {
 	
-	static String[] separateNew;
+	static ArrayList<String> separateNew = new ArrayList<String>();
+	static String[] exemplo;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CsvValidationException, IOException {
+		
+		FileReader filereader = new FileReader("NewsArticles.csv");
+		CSVReader csvreader = new CSVReader(filereader);
+		
+		while ((exemplo = csvreader.readNext()) != null) {
+			for (String coluna: exemplo) {
+				System.out.println(coluna + "\t");
+			}
+		}
+		
 		
 		BufferedReader bfr = null;
 		
@@ -28,36 +43,12 @@ public class ReadCSV {
 			
 			String line = bfr.readLine(); //read line
 			
-			
-			int i = 0;
-
-			
 			while (line != null) {
-				//System.out.println(line);
-				
-				separateNew = line.split("\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\";;;;;;;;;;;;;;;;;;;;;;;;;;");
-				//for (String element: separateNew) {
-					
-				//	String[] separateLine = element.split(",", 6);
-				//	System.out.println(separateLine[3]);
-				//}
-				
-				//String articleID = separateLine[0];
-				//String publishDate = separateLine[1];
-				//String articleSourceLink = separateLine[2];
-				//String title = separateLine[3];
-				//String subtitle = separateLine[4];
-				//String text = separateLine[5];
-				//System.out.println(title);
-				
+				System.out.println(line);
+				separateNew.add(line);
 				
 				line = bfr.readLine(); //read next line
  				
-			}
-			for (String element: separateNew) {
-			
-				String[] separateLine = element.split(",", 6);
-				System.out.println(separateLine[3]);
 			}
 			
 		} catch (IOException e) {
@@ -67,5 +58,6 @@ public class ReadCSV {
 		}
 		
 	}
+	
 
 }
