@@ -179,13 +179,38 @@ public class BloomFilter {
 	return flag;
 	}
 	
+	public int count(String element) {
+		if(!this.isMember(element)) {
+			
+			return 0;
+		
+		} else {
+			int index;
+			int min = Integer.MAX_VALUE;
+			for (int j = 0; j < nHashFunctions; j++) {
+				
+				index = hashFunction(element, j) % (bloomFilter.length);
+				if(bloomFilter[index] < min) {
+					
+					min = this.bloomFilter[index];
+				
+				}
+				
+			}
+			return min;
+		}
+		
+	}
 	
-	
-	
-	
-
-	
-	
-	
+	public void deleteElement(String element) {
+		int index;
+		for (int i = 0; i < nHashFunctions; i++) {
+			
+			index = hashFunction(element, i) % (bloomFilter.length);
+			if(bloomFilter[index] > 0) {
+				this.bloomFilter[index]--;
+			}
+		}
+	}
 
 }
