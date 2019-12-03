@@ -171,8 +171,8 @@ public class BloomFilter {
 		boolean flag = true;
 		int index;
 		
-		for(int i = 0; i < this.size; i++) {
-			index = hashFunction(element, i);
+		for(int i = 0; i < nHashFunctions; i++) {
+			index = hashFunction(element, i) % (bloomFilter.length);
 			if(bloomFilter[index] == 0)
 				flag = false;
 		}
