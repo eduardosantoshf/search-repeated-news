@@ -21,7 +21,7 @@ public class FinalTest {
 		 * 
 		 */
 		
-		FileReader filereader = new FileReader("Articles2.csv");
+		FileReader filereader = new FileReader("Articles.csv");
 		
 		BufferedReader bfr = null;
 		
