@@ -2,15 +2,15 @@ package tests;
 
 import modules.BloomFilter;
 
+
 import java.util.*;
-import java.io.*;
 
 public class BloomFilterTest {
 
 	public static void main(String[] args) {
 		
 		int nElements = 1000; //number of elements to insert 
-		int size = 8000; //size of the bloom filter
+		int size = 500; //size of the bloom filter
 		int stringLen = 40; //length of the strings
 		int nHashFunctions = 7; //number of hash functions
 		
@@ -60,10 +60,10 @@ public class BloomFilterTest {
 		 for (String s: generatedStrings) {
 			 if (bf.isMember(s)) {
 				 probablyInBF++;
-				 System.out.printf("The string %d is probably in the bloom filter\n", generatedStrings.indexOf(s));
+				 System.out.printf("The string %d is probably in the bloom filter\n", generatedStrings.indexOf(s)+1);
 			 } else {
 				 notInBF++;
-				System.out.printf("The string %d is not in the bloom filter\n", generatedStrings.indexOf(s));
+				System.out.printf("The string %d is not in the bloom filter\n", generatedStrings.indexOf(s)+1);
 			 }
 		 }
 		 System.out.println("----------------------------------------------------");
