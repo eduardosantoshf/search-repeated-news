@@ -1,6 +1,8 @@
 package tests;
 
 import modules.News;
+import modules.Shingles;
+import modules.MinHash;
 import modules.BloomFilter;
 
 import java.util.*;
@@ -73,35 +75,74 @@ public class FinalTest {
 		 * 
 		 */
 		
-		BloomFilter bf = new BloomFilter(news.size(), (int)(news.size() * 0.8), 4);
-		bf.initBloomFilter();
-		bf.initHashFunction(1000);
-		ArrayList<String> repeatedNews = new ArrayList<>();
+		int op;
+		Scanner scn = new Scanner(System.in); //creating the scanner
 		
+		//initial menu
+		System.out.println("Choose one of the following options to run the tests:");
+		System.out.println("1: Bloom Filter tests");
+		System.out.println("2: print 'test'");
 		
-		for(int i = 0; i < news.size(); i++) {
+		while (!scn.hasNextInt()) {
 			
-			if(!bf.isMember(news.get(i).getNewsTitle())) {
-				bf.insertElement(news.get(i).getNewsTitle()); //if the news title is not in the bloom filter, add it
-			}
-			else {
-				repeatedNews.add(news.get(i).getNewsTitle()); //if the news title is already in the bloom filter, add it to the repeatedNews ArrayList
-			}
+			scn.next();
+			System.out.println("Invalid value, please enter a valid one: "); //while scanned value  a valid integer, ask again for the number 
 			
 		}
 		
-		//print repeated news
-		System.out.printf("No ficheiro utilizado, estão %d noticias repetidas.\n", repeatedNews.size());
-		System.out.println("Essas noticias são as seguintes:");
+		op = scn.nextInt();
 		
-		int contador = 1;
-		
-		for (String noticia: repeatedNews) {
-			contador++;
-			System.out.printf("noticia repetida #%d: %s\n", contador, noticia);
+		switch(op) {
+			case 1:
+				BloomFilter bf = new BloomFilter(news.size(), (int)(news.size() * 0.8), 4);
+				bf.initBloomFilter();
+				bf.initHashFunction(1000);
+				ArrayList<String> repeatedNews = new ArrayList<>();
+				
+				for(int i = 0; i < news.size(); i++) {
+					
+					if(!bf.isMember(news.get(i).getNewsTitle())) {
+						bf.insertElement(news.get(i).getNewsTitle()); //if the news title is not in the bloom filter, add it
+					}
+					else {
+						repeatedNews.add(news.get(i).getNewsTitle()); //if the news title is already in the bloom filter, add it to the repeatedNews ArrayList
+					}
+					
+				}
+				
+				//print repeated news
+				System.out.printf("No ficheiro utilizado, estão %d noticias repetidas.\n", repeatedNews.size());
+				System.out.println("Essas noticias são as seguintes:");
+				
+				int contador = 1;
+				
+				for (String noticia: repeatedNews) {
+					contador++;
+					System.out.printf("noticia repetida #%d: %s\n", contador, noticia);
+				}
+				break;
+				
+			case 2:
+				MinHash mh = new MinHash();
+				HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+				
+				for(int i = 0; i < news.size(); i++) {
+					Shingles sh = new Shingles(news.get(i).getNewsContent());
+					ArrayList<String> shingles = sh.getShingles();
+					map.put(i, mh.createMinHash(shingles));
+				}
+				
+				mh.printSimilares(map, 95);
+				
+				/*for(News n: news) {
+					Shingles sh = new Shingles(n.getNewsContent());
+					ArrayList<String> shingles = sh.getShingles();
+					map.put(n.getNewsTitle(), mh.createMinHash(shingles));
+				}*/
+				
+				
 		}
-		
-		
+
 	}
 
 }
