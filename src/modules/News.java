@@ -4,13 +4,15 @@ public class News {
 	private String newsTitle;
 	private String newsContent;
 	
-	//constructor
+	/*********************************************** constructor ***********************************************/
+
 	public News(String newsTitle, String newsContent) {
 		this.newsTitle = newsTitle;
 		this.newsContent = newsContent;
 	}
 	
-	//getters and setters
+	/******************************************* getters and setters *******************************************/
+	
 	public String getNewsTitle() {
 		return newsTitle;
 	}
@@ -24,7 +26,8 @@ public class News {
 		this.newsContent = newsContent;
 	}
 	
-	//toString
+	/************************************************* toString *************************************************/
+	
 	@Override
 	public String toString() {
 		return "News [newsTitle=" + newsTitle + ", newsContent=" + newsContent + "]";

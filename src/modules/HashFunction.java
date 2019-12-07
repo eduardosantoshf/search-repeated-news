@@ -4,17 +4,20 @@ import java.util.Random;
 
 public class HashFunction {
 	
-	
 	private int primeNumber;
 	private int [] RandomValuesA; //random values 
 	private int [] RandomValuesB; //random values
 	private int nHashFunctions;
 	
+	/*********************************************** constructor ***********************************************/
+	
 	public HashFunction(int nHashFunctions) {
 		this.nHashFunctions = nHashFunctions;
 		initHashFunction();
 	}
-
+	
+	/************************************************* getters *************************************************/
+	
 	public int getPrimeNumber() {
 		return primeNumber;
 	}
@@ -31,16 +34,9 @@ public class HashFunction {
 		return nHashFunctions;
 	}
 	
+	/************************************************ methods ************************************************/
 	
-	
-	/*
-	 *  
-	 * Checks if a certain number is prime
-	 * 
-	 * it will help creating the hash functions
-	 * 
-	 */
-	
+	//checks if a certain number is prime, it will help creating the hash functions
 	private boolean isPrime( int number) {
 		for(int i = 2; i < number; i++) {
 			if (number % i == 0) 
@@ -49,16 +45,10 @@ public class HashFunction {
 		return true;
 	}
 	
-
-	/*
-	 * 
-	 * Calculates the random numbers needed in the hash function
-	 * 
-	 */
-	
-	public void initHashFunction () {
+	//calculates the random numbers needed in the hash function
+	public void initHashFunction() {
 		
-		this.primeNumber = 10001; //this can change
+		this.primeNumber = 999931; //big prime number, value can change
 		
 		if (this.primeNumber % 2 == 0) {
             this.primeNumber++;
@@ -80,18 +70,13 @@ public class HashFunction {
 		
 	}
 	
-	/*
-	 * 
-	 * Calcula o valor do hash
-	 * 
-	 */
+	//calculate hash values
 	public int gh(String s, int i) {
 		
+		int hashJava = s.hashCode();
 		int h = 0;
-		for ( int k = 0; k < s.length(); k++) {
-			h += RandomValuesA[i] * (int)s.charAt(k) + RandomValuesB[i];
-		}
 		
+		h = Math.abs((RandomValuesA[i] * hashJava + RandomValuesB[i]));
 		h = h % this.primeNumber;
 		
 		return h;

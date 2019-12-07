@@ -4,27 +4,24 @@ import java.util.ArrayList;
 
 public class Shingles {
 	
-	private int k = 10;
+	private int k;
 	private ArrayList<String> shingles;
 	private HashFunction hash;
 	
-	/*
-	 * 
-	 * Construtores
-	 * 
-	 */
+	/*********************************************** constructor ***********************************************/
 	
-	public Shingles (String mapa) {
-		hash = new HashFunction(this.k);
+	public Shingles (String mapa, int k) {
+		this.k = k;
+		this.hash = new HashFunction(this.k);
 		this.shingles = addShingles(mapa);
+		
 	}
 
+	/************************************************* getters *************************************************/
 	
-	/*
-	 * 
-	 * getters
-	 * 
-	 */
+	public int getK() {
+		return k;
+	}
 	
 	public ArrayList<String> getShingles() {
 		return shingles;
@@ -34,41 +31,36 @@ public class Shingles {
 		return hash;
 	}
 	
-	/*
-	 * 
-	 * cria os shingles de uma string
-	 * 
-	 */
+	/************************************************ methods ************************************************/
 	
+	//create k-shingles of a string
 	public ArrayList<String> addShingles(String valor){
 		
-		ArrayList<String> shingles = new ArrayList<String>();
+		ArrayList<String> shingles = new ArrayList<String>(); //Initialize the array of shingles
 		
 		String shingle = "";
 			
-			for (int i = 0; i < valor.length() - this.k; i++) {
+		for (int i = 0; i < valor.length() - this.k; i++) {
+			
+			for ( int w = i; w < i + this.k; w++) {
 				
-				for ( int w = i; w < i + this.k; w++) {
-					shingle += valor.charAt(w);
-				}
+				shingle += valor.charAt(w); //concatenate each char to create the shingle
 				
-				shingles.add(shingle);
-				shingle = "";
 			}
+			
+			shingles.add(shingle); //add each shingle to the shingles array
+			shingle = "";
+		}
 		
 		return shingles;
 	}
 	
-	
-	/*
-	 * 
-	 * print shingles
-	 * 
-	 */
-	
+	//print shingles
 	public void printSh() {
-		for(String s: shingles ) {
+		for (String s: shingles ) {
+			
 			System.out.println(s);
+			
 		}
 	}
 
