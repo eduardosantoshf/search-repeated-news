@@ -9,21 +9,26 @@ public class MinHashTest {
 
 	public static void main(String[] args) {
 		
-		String teste1 = "DHARAMSALA: The persistent rain abandoned the match between Bangladesh and Ireland in the first round group A of the World Twenty20 here at the Himachal Pradesh Cricket Association Stadium on Friday.Thus, Ireland were knocked out of the World T20, when play was called off at 10:20pm local time, after rain had stopped the game after eight overs in the Bangladesh innings.Now, the Bangladesh-Oman encounter will decide who goes through from Group A, with both teams on three points each while the Netherlands and Ireland are on one point each.The match was always at the mercy of the weather after rain forced the Oman-Netherlands game earlier in the afternoon to be abandoned. Rain had stopped at around 7:30pm and allowed the match to start at 9:45pm, but it relented for just over an hour.The rain first delayed the match and was later restricted to 12-overs-a-side before Ireland captain William Porterfield won the toss and sent Bangladesh into bat first.However, Bangladesh batted at nearly 12 runs per over and when they reached 94 for two in just eight overs, rain again stopped the play and later the match was abandoned. Both teams were allotted one point each in the no-result match.Opener Tamim Iqbal made 47 off 26 balls, hitting four sixes and three boundaries.";
-		String teste2 = "DHARAMSALA: Ireland captain William Porterfield won the toss and elected to field first against Bangladesh in the eighth match of the of the World Twenty20 (first round, group A) here at the Himachal Pradesh Cricket Association on Friday.Both teams are playing their second match in the tournament. The match, delayed by rain, has been  restricted to 12-overs-a-side.This will be a must-win game for Ireland as they were stunned by Oman in their first match.Rain had washed out the previous match of the day, between Oman and Netherlands, which was called off an hour and 20 minutes after the scheduled start.Bangladesh brought in Abu Hider and Mohammad Mithun in place of Nasir Hossain and Arafat Sunny, who is flying to Chennai on Saturday to have his bowling action tested after it was reported by the ICC. Taskin Ahmed, the other bowler whose action was reported, would play against Ireland.Ireland brought in left-arm spinner George Dockrell for seamer Craig Young.Teams:Bangladesh: Tamim Iqbal, Soumya Sarkar, Sabbir Rahman, Mushfiqur Rahim (wk), Shakib Al Hasan, Mahmudullah, Mithun Ali, Mashrafe Mortaza (captain), Al-Amin Hossain, Abu Hider Roni, Taskin AhmedIreland: William Porterfield (captain), Paul Stirling, Gary Wilson, Niall O'Brien (wk), Kevin O'Brien, Andrew Poynter, Andy McBrine, Max Sorensen, George Dockrell, Boyd Rankin, Craig YoungShakib Al Hasan is 21 runs away from becoming the first Bangladeshi batsman to reach 1,000 runs. Tamim Iqbal is close behind too, needing 58 runs to reach the same milestoneBangladesh has a 3-1 win-loss record over Ireland in T20Is but their last game was in July 2012";	
-		Shingles sh = new Shingles(teste1);
-		Shingles sh2 = new Shingles(teste2);
+		String teste1 = "ISLAMABAD: As per Federal Government�s Gazette Notification dated June 04, 2015 the old design banknotes will cease to be legal tender with effect from December 01, 2016. Therefore it has now been decided to phase out all remain in gold design banknotes of Rs 10, 50, 100 and 1000, said a statement issued by the State Bank of Pakistan here on Friday.</strongThe Rs. 5 banknote and the old design Rs. 500 banknote have already been demonetized.It is worth mentioning that the State Bank of Pakistan issued a new design banknote series which started with the issuance of Rs20 denomination banknote in 2005 to improve the security durability and aesthetic quality of banknotes.The process of issuance of complete series of new design banknotes comprising eight denominations (Rs 5 10 20 50 100 500 1000 and 5000) was completed in 2008.The commercial and microfinance banks will accept the old design banknotes of Rs 10 50 100 and 1000 and exchange the same with the new design banknotes and coins of all denominations up to 30th November 2016 only.However, SBP BSC field offices will continue to accept the old design banknotes of Rs 10, 50, 100 and 1000 from general public up to December 31 2021. The last day to exchange all old design banknotes from banks is November 30, 2016.All old design banknotes shall cease to be legal tender on December 01 2016 while last day to exchange all such banknotes from SBP BSC field offices is December 31, 2021";
+		String teste2 = "ISLAMABAD: �The old design banknotes will cease to be legal tender with effect from December 1, 2016 as per Federal Government�s Gazette Notification.According to SBP notification, it has now been decided to phase out all remaining old design banknotes of Rs 10, 50, 100 and 1000 while the Rs 5 banknote and the old design Rs 500 banknote have already been demonetized.It is worth mentioning that SBP issued a new design banknote series, which started with the issuance of Rs 20 denomination banknote in 2005, to improve the security, durability and aesthetic quality of banknotes.The process of issuance of complete series of new design banknotes, comprising eight denominations (Rs 5, 10, 20, 50, 100, 500, 1000 and 5000) was completed in 2008.The commercial microfinance banks will accept the old design banknotes of Rs 10, 50, 100 and 1000 and exchange the same with the new design banknotes and coins of all denominations up to 30th November 2016 only.However SBP BSC field offices will continue to accept the old design banknotes of Rs 10, 50, 100 &amp; 1000 from general public up to December 31, 2021.The last day to exchange all old design banknotes from banks is November 30, 2016.All old design banknotes shall cease to be legal tender on December 01, 2016 while last day to exchange all such banknotes from SBP BSC field offices is December 31, 2021, it added";	
 		
-		//sh.printSh();
-		MinHash minhash = new MinHash();
+		Shingles sh = new Shingles(teste1, 10);
+		Shingles sh2 = new Shingles(teste2, 10);
+		MinHash minhash = new MinHash(100);
 		ArrayList<Integer> vetor1 = minhash.createMinHash(sh.getShingles());
+		ArrayList<Integer> vetor2 = minhash.createMinHash(sh2.getShingles());
+		
+		System.out.println("Array of hash values generated for the first string: ");
 		minhash.printVetor(vetor1);
 		System.out.println();
-		ArrayList<Integer> vetor2 = minhash.createMinHash(sh2.getShingles());
+		System.out.println();
+		System.out.println("Array of hash values generated for the second string: ");
 		minhash.printVetor(vetor2);
+		System.out.println();
 		
-		int numIguais = 0;
+		double numIguais = 0;
 		
+		//check strings similarities
 		for(int i = 0; i < vetor1.size(); i++) {
 			
 				if(vetor2.contains(vetor1.get(i))) {
@@ -32,8 +37,9 @@ public class MinHashTest {
 			
 		}
 		double sim = numIguais/100;
+		
 		System.out.println();
-		System.out.println(numIguais + " teste");
+		System.out.println("These 2 strings have a similarity of: " + sim);
 		
 
 	}
