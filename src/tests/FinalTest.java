@@ -54,124 +54,130 @@ public class FinalTest {
 			
 		}
 		
-		int op;
-		Scanner scn = new Scanner(System.in); //creating the scanner
-		
-		//initial menu
-		System.out.println("Choose one of the following options to run the tests:");
-		System.out.println("1: [Bloom Filter] List repeat news with same titles"); 
-		System.out.println("2: [MinHash & Shingles] List news with similar titles");
-		System.out.println("3: [MinHash & Shingles] List news with similar contents");
-		
-		while (!scn.hasNextInt()) {
+		int op = 0;
+		while (op != 4) {
+			Scanner scn = new Scanner(System.in); //creating the scanner
 			
-			scn.next();
-			System.out.println("Invalid value, please enter a valid one: "); //while scanned value  a valid integer, ask again for the number 
+			//initial menu
+			System.out.println("Choose one of the following options to run the tests:");
+			System.out.println("1: [Bloom Filter] List repeat news with same titles"); 
+			System.out.println("2: [MinHash & Shingles] List news with similar titles");
+			System.out.println("3: [MinHash & Shingles] List news with similar contents");
+			System.out.println("4: Terminate program");
 			
-		}
-		
-		op = scn.nextInt();
-		
-		switch(op) {
-		
-		/******************************************** Bloom Filter test ********************************************/
-		
-			case 1:
-				BloomFilter bf = new BloomFilter(news.size(), (int)(news.size() / 0.1), 4);
-				bf.initBloomFilter();
-				bf.initHashFunction(1000);
-				ArrayList<String> repeatedNews = new ArrayList<>();
+			while (!scn.hasNextInt()) {
 				
-				for(int i = 0; i < news.size(); i++) {
+				scn.next();
+				System.out.println("Invalid value, please enter a valid one: "); //while scanned value  a valid integer, ask again for the number 
+				
+			}
+			
+			op = scn.nextInt();
+			
+			switch(op) {
+			
+			/******************************************** Bloom Filter test ********************************************/
+			
+				case 1:
+					BloomFilter bf = new BloomFilter(news.size(), (int)(news.size() / 0.1), 4);
+					bf.initBloomFilter();
+					bf.initHashFunction(1000);
+					ArrayList<String> repeatedNews = new ArrayList<>();
 					
-					if(!bf.isMember(news.get(i).getNewsTitle())) {
+					for(int i = 0; i < news.size(); i++) {
 						
-						bf.insertElement(news.get(i).getNewsTitle()); //if the news title is not in the bloom filter, add it
+						if(!bf.isMember(news.get(i).getNewsTitle())) {
+							
+							bf.insertElement(news.get(i).getNewsTitle()); //if the news title is not in the bloom filter, add it
+							
+						}
+						else {
+							
+							repeatedNews.add(news.get(i).getNewsTitle()); //if the news title is already in the bloom filter, add it to the repeatedNews ArrayList
+							
+						}
 						
 					}
-					else {
+					
+					//print repeated news
+					System.out.printf("In the file, there are %d repeated news.\n", repeatedNews.size());
+					System.out.println("Those news are the following:");
+					
+					int contador = 1;
+					
+					for (String noticia: repeatedNews) {
 						
-						repeatedNews.add(news.get(i).getNewsTitle()); //if the news title is already in the bloom filter, add it to the repeatedNews ArrayList
+						contador++;
+						System.out.printf("Repeated news #%d: %s\n", contador, noticia);
+						
+					}
+					System.out.println();
+					break;
+					
+			/****************************************** MinHash & Shingles test ******************************************/
+					
+				case 2:
+					System.out.println("Choose the similarity percentage: ");
+					while (!scn.hasNextInt()) {
+						
+						scn.next();
+						System.out.println("Invalid value, please enter a valid percentage [0, 100]: "); 
 						
 					}
 					
-				}
-				
-				//print repeated news
-				System.out.printf("In the file, there are %d repeated news.\n", repeatedNews.size());
-				System.out.println("Those news are the following:");
-				
-				int contador = 1;
-				
-				for (String noticia: repeatedNews) {
-					
-					contador++;
-					System.out.printf("Repeated news #%d: %s\n", contador, noticia);
-					
-				}
-				break;
-				
-		/****************************************** MinHash & Shingles test ******************************************/
-				
-			case 2:
-				System.out.println("Choose the similarity percentage: ");
-				while (!scn.hasNextInt()) {
-					
-					scn.next();
-					System.out.println("Invalid value, please enter a valid percentage [0, 100]: "); 
-					
-				}
-				
-				op = scn.nextInt();
-				while(op < 0 | op > 100) {
-					System.out.println("Invalid value, please enter a valid percentage [0, 100]: "); 
 					op = scn.nextInt();
-				}
-				
-				
-				MinHash mh = new MinHash(100);
-				HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
-				
-				for(int i = 0; i < news.size(); i++) {
-					Shingles sh = new Shingles(news.get(i).getNewsTitle(), 2);
-					ArrayList<String> shingles = sh.getShingles();
-					map.put(i, mh.createMinHash(shingles));
-				}
-				long inicio = System.currentTimeMillis();
-				mh.printSimilaresTitles(map, op, news);
-				long fim = System.currentTimeMillis();
-				System.out.println("This operation took " + (fim - inicio) + " ms.");
-				break;
-				
-			case 3:
-				System.out.println("Choose the similarity percentage: ");
-				while (!scn.hasNextInt()) {
+					while(op < 0 | op > 100) {
+						System.out.println("Invalid value, please enter a valid percentage [0, 100]: "); 
+						op = scn.nextInt();
+					}
 					
-					scn.next();
-					System.out.println("Invalid value, please enter a valid percentage [0, 100]: "); 
 					
-				}
-				
-				op = scn.nextInt();
-				while(op < 0 | op > 100) {
-					System.out.println("Invalid value, please enter a valid percentage [0, 100]: "); 
+					MinHash mh = new MinHash(100);
+					HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+					
+					for(int i = 0; i < news.size(); i++) {
+						Shingles sh = new Shingles(news.get(i).getNewsTitle(), 2);
+						ArrayList<String> shingles = sh.getShingles();
+						map.put(i, mh.createMinHash(shingles));
+					}
+					long inicio = System.currentTimeMillis();
+					mh.printSimilaresTitles(map, op, news);
+					long fim = System.currentTimeMillis();
+					System.out.println("This operation took " + (fim - inicio) + " ms.");
+					System.out.println();
+					break;
+					
+				case 3:
+					System.out.println("Choose the similarity percentage: ");
+					while (!scn.hasNextInt()) {
+						
+						scn.next();
+						System.out.println("Invalid value, please enter a valid percentage [0, 100]: "); 
+						
+					}
+					
 					op = scn.nextInt();
-				}
+					while(op < 0 | op > 100) {
+						System.out.println("Invalid value, please enter a valid percentage [0, 100]: "); 
+						op = scn.nextInt();
+					}
+						
+					MinHash mh2 = new MinHash(100);
+					HashMap<Integer, ArrayList<Integer>> map2 = new HashMap<>();
 					
-				MinHash mh2 = new MinHash(100);
-				HashMap<Integer, ArrayList<Integer>> map2 = new HashMap<>();
-				
-				for(int i = 0; i < news.size(); i++) {
-					Shingles sh = new Shingles(news.get(i).getNewsContent(), 10);
-					ArrayList<String> shingles = sh.getShingles();
-					map2.put(i, mh2.createMinHash(shingles));
-				}
-				long inicio2 = System.currentTimeMillis();
-				mh2.printSimilaresContents(map2, op, news);
-				long fim2 = System.currentTimeMillis();
-				System.out.println("This operation took " + (fim2 - inicio2) + " ms.");
-				break;
-				
+					for(int i = 0; i < news.size(); i++) {
+						Shingles sh = new Shingles(news.get(i).getNewsContent(), 10);
+						ArrayList<String> shingles = sh.getShingles();
+						map2.put(i, mh2.createMinHash(shingles));
+					}
+					long inicio2 = System.currentTimeMillis();
+					mh2.printSimilaresContents(map2, op, news);
+					long fim2 = System.currentTimeMillis();
+					System.out.println("This operation took " + (fim2 - inicio2) + " ms.");
+					System.out.println();
+					break;
+					
+			}
 		}
 	}
 
